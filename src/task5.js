@@ -41,11 +41,18 @@ function findHappyTicket (context) {
             
         happyTicket1 += methodStandart(ticketDigits);
         happyTicket2 += methodEvenOdd(ticketDigits);
-        
         context.min++;
     }
 
-    winner = (happyTicket1 > happyTicket2) ? 'methodStandart' : (happyTicket1 === 0 && happyTicket2 === 0) ? 'I am a looser :(' : (happyTicket1 === happyTicket2) ? 'I am a winner!' :'methodEvenOdd';
+    if (happyTicket1 > happyTicket2) {
+        winner = 'methodStandart';
+    } else if (happyTicket1 === 0 && happyTicket2 === 0) {
+        winner = 'I am a looser :(';
+    } else if (happyTicket1 === happyTicket2) {
+        winner = 'I am a winner!';
+    } else {
+        winner = 'methodEvenOdd';
+    }
 
     winnerInfo = { methodStandart : happyTicket1, methodEvenOdd : happyTicket2, winner : winner };
 
