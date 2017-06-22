@@ -1,35 +1,37 @@
 'use strict'
 
 function task7 (context) {
-    try {
-        if (!context) {
-            throw 'please, enter the argument';
-        }
+    let errorMessage = preValidateTask7(context),
+        result;
 
-        if (!context.min || !context.max) {
-            throw 'context doesn\'t contain min and/or max';
-        }
-
-        if (typeof context.min !== 'number' || typeof context.max !== 'number') {
-            throw 'context.min and/or context.max are not a number';
-        }
-
-        if (context.min >= context.max) {
-            throw 'context.min must be less than the context.max';
-        }
-
-        findFibonacci(context);
+    if (errorMessage === '') {
+        result = findFibonacci(context);
+    } else {
+        result = {status: 'failed', reason: errorMessage};
     }
 
-    catch (err) {
-        console.log({status: 'failed', reason: err});
+    return result;
+}
+
+function preValidateTask7 (context) {
+    let errorMessage = '';
+
+    if (!context) {
+        errorMessage = 'please, enter the argument';
+    } else if (!context.min || !context.max) {
+        errorMessage = 'context doesn\'t contain min and/or max';
+    } else if (typeof context.min !== 'number' || typeof context.max !== 'number') {
+        errorMessage = 'context.min and/or context.max are not a number';
+    } else if (context.min >= context.max) {
+        errorMessage = 'context.min must be less than the context.max';
     }
+
+    return errorMessage;
 }
 
 function findFibonacci (context) {
     let fibList = [],
-        a = 1,
-        b = 1,
+        a = 1, b = 1,
         c;
 
     while (b < context.max ) {
@@ -41,6 +43,5 @@ function findFibonacci (context) {
         b = c;
     }
 
-    console.log(fibList);
     return fibList;
 }

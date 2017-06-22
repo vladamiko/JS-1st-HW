@@ -1,23 +1,29 @@
 'use strict'
 
 function task4 (value) {
-    try {
-        if (!value) {
-            throw 'please, enter the argument';
-        }
+    let errorMessage = preValidateTask4(value),
+        result;
 
-        if (typeof value !== 'number') {
-            throw 'incorrect type of the value (must be number)';
-        }
-
-        findPalindrome(value);
-    }
-
-    catch (err) {
-        console.log({status: 'failed', reason: err});
+    if (errorMessage === '') {
+        result = findPalindrome(value);
+    } else {
+        result = {status: 'failed', reason: errorMessage};
     }
     
+    return result;
 };
+
+function preValidateTask4 (value) {
+    let errorMessage = '';
+
+    if (!value) {
+        errorMessage = 'please, enter the argument';
+    } else if (typeof value !== 'number') {
+        errorMessage = 'incorrect type of the value (must be number)';
+    }
+
+    return errorMessage;
+}
 
 function findPalindrome (value) {
     let result = 0,
@@ -29,21 +35,18 @@ function findPalindrome (value) {
             oddPalindrome = extendPalindrome(i, i, parsedString);
 
         if (oddPalindrome.length > 1) {
-            palindromesList.push(oddPalindrome);
+            palindromesList.push(Number(oddPalindrome));
         }
         
         if (evenPalindrome.length > 1) {
-            palindromesList.push(evenPalindrome);
+            palindromesList.push(Number(evenPalindrome));
         }
     }
 
     if (palindromesList.length > 0) {
-        result = palindromesList.reduce(function(a, b) {
-            return Math.max(a, b);
-        });
+        result = Math.max(...palindromesList);
     }
 
-    console.log(result);
     return result;
 }
 
@@ -52,5 +55,6 @@ function extendPalindrome (left, right, string) {
         left--;
         right++;
     }
+
     return string.slice(left + 1, right);
 };

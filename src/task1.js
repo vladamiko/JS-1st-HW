@@ -1,32 +1,38 @@
 'use strict'
 
 function task1 (height, width, symbol) {
-    try { 
-        if (!height || !width || !symbol) {
-            throw "please, enter all the arguments";
-        }            
+    let errorMessage = preValidateTask1(height, width, symbol),
+        result;
 
-        if (typeof height !== 'number' || typeof width !== 'number') {
-            throw "height and/or width are not a number";
-        }
-
-        if (typeof symbol !== 'string') {
-            throw "symbol is not a string";
-        }
-
-        drawChessBoard(height, width, symbol);
+    if (errorMessage === '') {
+        result = createChessBoard(height, width, symbol);
+    } else {
+        result = {status: 'failed', reason: errorMessage};
     }
 
-    catch(err) {
-        console.log({status: 'failed', reason: err});
-    }    
+    return result;
 }
 
-function drawChessBoard (height, width, symbol) {
-    let result = '';
+function preValidateTask1 (height, width, symbol) {
+    let errorMessage = '';
+
+    if (!height || !width || !symbol) {
+        errorMessage = 'please, enter all the arguments';
+    } else if (typeof height !== 'number' || typeof width !== 'number') {
+        errorMessage = 'height and/or width are not a number';
+    } else if (typeof symbol !== 'string') {
+        errorMessage = 'symbol is not a string';
+    }
+
+    return errorMessage;
+}
+
+function createChessBoard (height, width, symbol) {
+    let result = '',
+        resultWidth = width * 2 - 1;
 
     for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width * 2 - 1; j++) {
+        for (let j = 0; j < resultWidth; j++) {
             if (i % 2 === j % 2) {
                 result += symbol;
             } else {
@@ -36,6 +42,5 @@ function drawChessBoard (height, width, symbol) {
         result += '\n';
     }
 
-    console.log(result);
     return result;
 }
